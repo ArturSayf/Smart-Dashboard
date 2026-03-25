@@ -1,0 +1,96 @@
+body {
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+    line-height: 1.5;
+}
+
+#app {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    max-width: 500px;
+    margin: 0 auto;
+    background: var(--bg-primary);
+}
+
+/* Нижняя навигация */
+.bottom-nav {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    background: var(--bg-secondary);
+    padding: 10px 0;
+    border-top: 1px solid var(--border);
+    position: sticky;
+    bottom: 0;
+    width: 100%;
+}
+
+.nav-btn {
+    background: transparent;
+    color: var(--text-secondary);
+    font-size: 14px;
+    padding: 8px 16px;
+    border-radius: 20px;
+    transition: 0.2s;
+    cursor: pointer;
+}
+
+.nav-btn.active {
+    color: var(--accent);
+    font-weight: bold;
+}
+
+/* Контентная область */
+.main-content {
+    flex: 1;
+    padding: 20px 16px;
+    overflow-y: auto;
+}
+
+/* Кнопки */
+button {
+    cursor: pointer;
+    transition: opacity 0.2s;
+}
+button:active {
+    opacity: 0.7;
+}
+
+.btn-primary {
+    background: var(--accent);
+    color: white;
+    padding: 10px 16px;
+    border-radius: 8px;
+    font-weight: 500;
+}
+
+.btn-secondary {
+    background: var(--bg-card);
+    color: var(--text-primary);
+    padding: 8px 12px;
+    border-radius: 6px;
+}
+
+/* Карточки */
+.card {
+    background: var(--bg-card);
+    border-radius: 12px;
+    padding: 16px;
+    margin-bottom: 16px;
+}
+
+/* Поля ввода */
+input, textarea {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 10px;
+    color: var(--text-primary);
+    width: 100%;
+}
+
+input:focus, textarea:focus {
+    border-color: var(--accent);
+}

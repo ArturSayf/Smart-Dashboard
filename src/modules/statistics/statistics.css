@@ -1,0 +1,55 @@
+.statistics-screen {
+    padding: 0 0 16px;
+}
+
+.week-navigation {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.nav-week-btn {
+    background: var(--bg-card);
+    border-radius: 20px;
+    padding: 6px 12px;
+    font-size: 18px;
+}
+
+.days-buttons {
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    padding-bottom: 12px;
+    margin-bottom: 20px;
+}
+
+.day-btn {
+    background: var(--bg-card);
+    border-radius: 30px;
+    padding: 8px 12px;
+    min-width: 44px;
+    text-align: center;
+}
+
+.day-btn.active {
+    background: var(--accent);
+    color: white;
+}
+
+.selected-day-info {
+    background: var(--bg-secondary);
+    border-radius: 12px;
+    padding: 16px;
+}
+
+.habits-summary p {
+    margin: 8px 0;
+}
+
+.notes-of-day .stat-note {
+    background: var(--bg-card);
+    margin-top: 12px;
+    padding: 10px;
+    border-radius: 8px;
+}
