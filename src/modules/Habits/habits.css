@@ -1,0 +1,46 @@
+.habits-container {
+    padding: 16px;
+}
+.habits-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+.habit-card {
+    background: #f8f9fa;
+    border-radius: 16px;
+    padding: 16px;
+    margin-bottom: 16px;
+    border: 1px solid #e9ecef;
+}
+.habit-title {
+    font-size: 18px;
+    font-weight: 500;
+}
+.habit-value {
+    font-size: 24px;
+    font-weight: bold;
+    color: #007aff;
+    margin: 8px 0;
+}
+.habit-control {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+}
+.habit-control input {
+    flex: 1;
+    padding: 10px;
+    border-radius: 12px;
+    border: 1px solid #ccc;
+}
+.habit-control button {
+    background: #007aff;
+    border: none;
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    color: white;
+    font-size: 24px;
+    cursor: pointer;
+}

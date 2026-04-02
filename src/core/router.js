@@ -1,35 +1,23 @@
-import { renderNotesUI } from '../modules/notes/notesUI.js';
-import { renderDailyDataUI } from '../modules/dailyData/dailyDataUI.js';
-import { renderStatisticsUI } from '../modules/statistics/statisticsUI.js';
-
-let currentPath = '/notes';
-
-// Маршруты и их рендер-функции
 const routes = {
-    '/notes': renderNotesUI,
-    '/habits': renderDailyDataUI,
-    '/statistics': renderStatisticsUI
+    '/profile': () => import('../modules/profile/profileUI.js').then(m => m.renderProfileUI()),
+    '/notes':   () => import('../modules/notes/notesUI.js').then(m => m.renderNotesUI()),
+    '/habits':  () => import('../modules/habits/habitsUI.js').then(m => m.renderHabitsUI()),
+    '/tracker': () => import('../modules/tracker/trackerUI.js').then(m => m.renderTrackerUI())
 };
+const defaultRoute = '/profile';
 
 export function initRouter() {
-    window.addEventListener('popstate', () => {
-        handleRoute();
-    });
+    window.addEventListener('popstate', handleRoute);
     handleRoute();
 }
 
 export function navigate(path) {
-    if (path !== currentPath) {
-        history.pushState({}, '', path);
-        handleRoute();
-    }
+    history.pushState({}, '', path);
+    handleRoute();
 }
 
 function handleRoute() {
     const path = window.location.pathname;
-    const render = routes[path] || routes['/notes'];
-    if (render) {
-        currentPath = path;
-        render();
-    }
+    const handler = routes[path] || routes[defaultRoute];
+    if (handler) handler();
 }

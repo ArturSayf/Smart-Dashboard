@@ -1,0 +1,11 @@
+
+{
+  "name": "my-day-app",
+  "version": "1.0.0",
+  "description": "PWA Мой день - трекер привычек и заметок",
+  "scripts": {
+    "start": "npx serve public"
+  },
+  "author": "",
+  "license": "MIT"
+}

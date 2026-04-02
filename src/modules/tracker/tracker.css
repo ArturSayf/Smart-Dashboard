@@ -1,0 +1,71 @@
+.tracker-container {
+    padding: 16px;
+}
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin-bottom: 24px;
+}
+.stat-card {
+    background: #f8f9fa;
+    border-radius: 16px;
+    padding: 16px 8px;
+    text-align: center;
+    border: 1px solid #e9ecef;
+}
+.stat-value {
+    font-size: 28px;
+    font-weight: 700;
+    color: #007aff;
+}
+.week-calendar {
+    margin-bottom: 20px;
+}
+.week-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 8px;
+    margin-top: 12px;
+}
+.week-day {
+    aspect-ratio: 1;
+    background: #f0f0f0;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 500;
+    cursor: pointer;
+}
+.week-day.active {
+    background: #34c759;
+    color: white;
+}
+.week-day.selected {
+    border: 2px solid #007aff;
+    background: #007aff;
+    color: white;
+}
+.day-notes-panel {
+    background: #f8f9fa;
+    border-radius: 16px;
+    padding: 16px;
+    margin: 16px 0;
+}
+.day-note-item {
+    background: white;
+    padding: 10px;
+    border-radius: 12px;
+    margin-bottom: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.delete-day-note {
+    background: none;
+    border: none;
+    font-size: 18px;
+    cursor: pointer;
+    color: #ff3b30;
+}

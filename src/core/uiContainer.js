@@ -1,41 +1,33 @@
 import { navigate } from './router.js';
 
-let mainContainer = null;
-
 export function initUI() {
     const app = document.getElementById('app');
-    if (!app) return;
-
     app.innerHTML = `
-        <div class="main-content" id="main-content"></div>
-        <div class="bottom-nav">
-            <button class="nav-btn" data-path="/notes">📝 Заметки</button>
-            <button class="nav-btn" data-path="/habits">📊 Привычки</button>
-            <button class="nav-btn" data-path="/statistics">📈 Статистика</button>
-        </div>
+        <header class="app-header">
+            <h1>📅 Мой день</h1>
+            <nav class="tab-bar">
+                <button data-path="/profile" class="tab-btn">👤 Профиль</button>
+                <button data-path="/notes" class="tab-btn">📝 Заметки</button>
+                <button data-path="/habits" class="tab-btn">✅ Привычки</button>
+                <button data-path="/tracker" class="tab-btn">📊 Статистика</button>
+            </nav>
+        </header>
+        <main id="main-content"></main>
     `;
 
-    mainContainer = document.getElementById('main-content');
-
-    // Навесить обработчики на кнопки навигации
-    const navBtns = app.querySelectorAll('.nav-btn');
-    navBtns.forEach(btn => {
-        btn.addEventListener('click', () => {
-            const path = btn.getAttribute('data-path');
-            navigate(path);
-            // Активный класс
-            navBtns.forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('[data-path]').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
+            navigate(btn.dataset.path);
         });
     });
-
-    // Активная кнопка по умолчанию
-    const activePath = window.location.pathname;
-    const activeBtn = Array.from(navBtns).find(b => b.getAttribute('data-path') === activePath);
+    const currentPath = window.location.pathname;
+    const activeBtn = document.querySelector(`[data-path="${currentPath}"]`);
     if (activeBtn) activeBtn.classList.add('active');
-    else navBtns[0].classList.add('active');
+    else document.querySelector('[data-path="/profile"]').classList.add('active');
 }
 
 export function getMainContainer() {
-    return mainContainer;
+    return document.getElementById('main-content');
 }

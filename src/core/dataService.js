@@ -1,66 +1,90 @@
-const STORAGE_KEYS = {
-    HABITS: 'habitsData',
-    NOTES: 'notesData'
+let store = {
+    profile: {
+        name: 'Иван Петров',
+        bio: 'Студент, учусь разработке',
+        birthday: '',
+        avatar: null
+    },
+    notes: [],
+    habits: {
+        water: { history: {} },
+        sport: { history: {} },
+        read: { history: {} },
+        streak: 0,
+        lastUpdate: ''
+    },
+    dayNotes: {}
 };
 
-// Получить все привычки
-export function getAllHabits() {
-    const data = localStorage.getItem(STORAGE_KEYS.HABITS);
-    return data ? JSON.parse(data) : {};
-}
-
-// Получить привычки на конкретную дату
-export function getHabitsForDate(date) {
-    const all = getAllHabits();
-    return all[date] || { sleep: 0, sport: 0, reading: 0 };
-}
-
-// Сохранить привычки (добавить к существующим)
-export function addHabitsForDate(date, newValues) {
-    const all = getAllHabits();
-    const current = all[date] || { sleep: 0, sport: 0, reading: 0 };
-    all[date] = {
-        sleep: current.sleep + (newValues.sleep || 0),
-        sport: current.sport + (newValues.sport || 0),
-        reading: current.reading + (newValues.reading || 0)
-    };
-    localStorage.setItem(STORAGE_KEYS.HABITS, JSON.stringify(all));
-    return all[date];
-}
-
-// Получить все заметки
-export function getAllNotes() {
-    const data = localStorage.getItem(STORAGE_KEYS.NOTES);
-    return data ? JSON.parse(data) : {};
-}
-
-// Получить заметки на дату
-export function getNotesForDate(date) {
-    const all = getAllNotes();
-    return all[date] || [];
-}
-
-// Сохранить новую заметку
-export function saveNote(note) {
-    const date = note.date;
-    const all = getAllNotes();
-    if (!all[date]) all[date] = [];
-    all[date].push(note);
-    localStorage.setItem(STORAGE_KEYS.NOTES, JSON.stringify(all));
-    return note;
-}
-
-// Удалить заметку
-export function deleteNote(date, noteId) {
-    const all = getAllNotes();
-    if (all[date]) {
-        all[date] = all[date].filter(n => n.id !== noteId);
-        localStorage.setItem(STORAGE_KEYS.NOTES, JSON.stringify(all));
+export function initData() {
+    const saved = localStorage.getItem('myday_app');
+    if (saved) {
+        store = JSON.parse(saved);
+    } else {
+        saveData();
     }
 }
 
-// Получить сегодняшнюю дату в формате YYYY-MM-DD
-export function getTodayString() {
-    const today = new Date();
-    return today.toISOString().split('T')[0];
+function saveData() {
+    localStorage.setItem('myday_app', JSON.stringify(store));
+}
+
+export function getStore() { return store; }
+
+export function updateProfile(updates) {
+    Object.assign(store.profile, updates);
+    saveData();
+}
+
+export function getNotes() { return store.notes; }
+export function addNote(note) {
+    store.notes.unshift(note);
+    saveData();
+}
+export function updateNote(id, updates) {
+    const idx = store.notes.findIndex(n => n.id === id);
+    if (idx !== -1) {
+        Object.assign(store.notes[idx], updates);
+        saveData();
+    }
+}
+export function deleteNote(id) {
+    store.notes = store.notes.filter(n => n.id !== id);
+    saveData();
+}
+
+export function getHabits() { return store.habits; }
+export function updateHabits(habitData) {
+    Object.assign(store.habits, habitData);
+    saveData();
+}
+export function addHabitEntry(type, date, value) {
+    if (!store.habits[type].history[date]) store.habits[type].history[date] = 0;
+    store.habits[type].history[date] += value;
+    saveData();
+}
+
+export function getDayNotes() { return store.dayNotes; }
+export function addDayNote(date, text) {
+    if (!store.dayNotes[date]) store.dayNotes[date] = [];
+    store.dayNotes[date].push(text);
+    saveData();
+}
+export function deleteDayNote(date, index) {
+    if (store.dayNotes[date]) {
+        store.dayNotes[date].splice(index, 1);
+        if (store.dayNotes[date].length === 0) delete store.dayNotes[date];
+        saveData();
+    }
+}
+
+export function resetAllData() {
+    store = {
+        profile: { name: 'Иван Петров', bio: 'Студент, учусь разработке', birthday: '', avatar: null },
+        notes: [],
+        habits: { water: { history: {} }, sport: { history: {} }, read: { history: {} }, streak: 0, lastUpdate: '' },
+        dayNotes: {}
+    };
+    saveData();
+    location.reload();
 }
