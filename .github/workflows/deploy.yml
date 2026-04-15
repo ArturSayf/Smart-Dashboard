@@ -21,14 +21,15 @@ jobs:
 
       - name: Prepare deployment directory
         run: |
-          mkdir dist
-          # Копируем все нужные файлы и папки в dist (корень сайта)
+          mkdir -p dist
           cp index.html dist/
           cp manifest.json dist/
           cp sw.js dist/
           cp offline.html dist/
           cp -r src dist/
-          cp -r public/icons dist/icons 2>/dev/null || cp -r icons dist/icons 2>/dev/null
+          # Копируем иконки, если папка существует
+          if [ -d "public/icons" ]; then cp -r public/icons dist/icons; fi
+          if [ -d "icons" ]; then cp -r icons dist/icons; fi
           touch dist/.nojekyll
 
       - name: Deploy to GitHub Pages
