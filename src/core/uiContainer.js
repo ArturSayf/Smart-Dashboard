@@ -1,10 +1,37 @@
 import { navigate } from './router.js';
 
+// Функция для инициализации темы при загрузке
+function initTheme() {
+  const savedTheme = localStorage.getItem('theme') || 'light';
+  document.documentElement.setAttribute('data-theme', savedTheme);
+  updateThemeButtonText(savedTheme);
+}
+
+function toggleTheme() {
+  const currentTheme = document.documentElement.getAttribute('data-theme') || 'light';
+  const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+  document.documentElement.setAttribute('data-theme', newTheme);
+  localStorage.setItem('theme', newTheme);
+  updateThemeButtonText(newTheme);
+}
+
+function updateThemeButtonText(theme) {
+  const btn = document.getElementById('theme-toggle-btn');
+  if (btn) {
+    btn.textContent = theme === 'light' ? '🌙' : '☀️';
+  }
+}
+
 export function initUI() {
+  initTheme(); // применяем сохранённую тему
+
   const app = document.getElementById('app');
   app.innerHTML = `
     <header class="app-header">
-      <h1>Smart Dashboard</h1>
+      <div style="display: flex; justify-content: space-between; align-items: center;">
+        <h1>Smart Dashboard</h1>
+        <button id="theme-toggle-btn" style="background: none; border: none; font-size: 1.5rem; cursor: pointer;">🌙</button>
+      </div>
     </header>
     <main id="main-content"></main>
     <nav class="nav-bar">
@@ -14,6 +41,10 @@ export function initUI() {
       <button class="nav-btn" data-path="/stats">📊 Статистика</button>
     </nav>
   `;
+
+  // Обработчик кнопки темы
+  const themeBtn = document.getElementById('theme-toggle-btn');
+  themeBtn.addEventListener('click', toggleTheme);
 
   // Подсветка активной кнопки
   const buttons = app.querySelectorAll('[data-path]');
