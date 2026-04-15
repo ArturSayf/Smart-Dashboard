@@ -4,12 +4,11 @@ on:
   push:
     branches: [ main ]
 
-# Даём права на запись в содержимое репозитория (для gh-pages)
 permissions:
   contents: write
 
 jobs:
-  build-and-deploy:
+  deploy:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -18,14 +17,18 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: '20'  # используем актуальную LTS
+          node-version: '20'
 
       - name: Prepare deployment directory
         run: |
           mkdir dist
-          cp -r public/* dist/
+          # Копируем все нужные файлы и папки в dist (корень сайта)
+          cp index.html dist/
+          cp manifest.json dist/
+          cp sw.js dist/
+          cp offline.html dist/
           cp -r src dist/
-          # Создаём пустой .nojekyll, чтобы GitHub Pages не обрабатывал Jekyll
+          cp -r public/icons dist/icons 2>/dev/null || cp -r icons dist/icons 2>/dev/null
           touch dist/.nojekyll
 
       - name: Deploy to GitHub Pages
@@ -34,6 +37,4 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./dist
           publish_branch: gh-pages
-          force_orphan: true   # создаёт ветку gh-pages заново, избегая конфликтов
-          user_name: 'github-actions[bot]'
-          user_email: 'github-actions[bot]@users.noreply.github.com'
+          force_orphan: true
